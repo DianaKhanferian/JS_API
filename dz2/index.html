@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    .page-title {
+      text-align: center;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slider img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .prev-button,
+    .next-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background-color: transparent;
+      border: none;
+      font-size: 24px;
+      color: white;
+    }
+
+    .prev-button {
+      left: 10px;
+    }
+    .prev-button:hover {
+      cursor: pointer;
+    }
+
+    .next-button {
+      right: 10px;
+    }
+    .next-button:hover {
+      cursor: pointer;
+    }
+    .dots {
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+
+      align-items: center;
+      margin-top: 20px;
+    }
+    .dots__li {
+      list-style-type: none;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      transition: 1s;
+    }
+
+    .dots__li:hover {
+      transform: scale(1.2);
+    }
+
+  </style>
+  <body>
+    <!-- Вашей задачей является создание веб-слайдера для отображения изображений на веб-странице.
+        Создайте интерфейс веб-страницы, который включает в себя следующие элементы:
+            a. Контейнер для отображения текущего изображения.
+            b. Кнопки "Предыдущее изображение" и "Следующее изображение" для переключения между изображениями.
+            c. Навигационные точки (индикаторы) для быстрого переключения между изображениями.
+            
+        Для создания элементов интерфейса используйте HTML.
+            - При клике на кнопку "Предыдущее изображение" должно отображаться предыдущее изображение.
+            - При клике на кнопку "Следующее изображение" должно отображаться следующее изображение.
+            - При клике на навигационные точки, слайдер должен переключаться к соответствующему изображению.
+
+        Слайдер должен циклически переключаться между изображениями, то есть после последнего изображения должно отображаться первое, и наоборот.
+
+        Добавьте стилизацию для слайдера и элементов интерфейса с использованием CSS для улучшения внешнего вида. -->
+
+    <main>
+      <h1 class="page-title">Пример работы слайдера</h1>
+      <div class="slider-container">
+        <div class="slider">
+          <img
+          src="img/2.jpg"
+          alt="Свадебная прическа"
+          />
+          <img
+            src="img/1.jpg"
+            alt="Ногти белые"
+          />
+          <img
+            src="img/3.jpg"
+            alt="Ногти красные"
+          />
+          <img
+            src="img/4.jpg"
+            alt="Ногти фиолетовые"
+          />
+          <img
+            src="img/5.jpg"
+            alt="Вечерняя прическа Пучок"
+          />
+          <img
+            src="img/6.jpg"
+            alt="Вечерняя прическа"
+          />
+        </div>
+        <button class="prev-button" aria-label="Посмотреть предыдущий слайд">
+          &lt;
+        </button>
+        <button class="next-button" aria-label="Посмотреть следующий слайд">
+          &gt
+        </button>
+      </div>
+      <ul class="dots">
+        <li data-number="0" class="dots__li">*</li>
+        <li data-number="1" class="dots__li">*</li>
+        <li data-number="2" class="dots__li">*</li>
+        <li data-number="3" class="dots__li">*</li>
+        <li data-number="4" class="dots__li">*</li>
+      </ul>
+    </main>
+    <script>
+      // Получаем элементы слайдера
+      const slider = document.querySelector(".slider");
+      const prevButton = document.querySelector(".prev-button");
+      const nextButton = document.querySelector(".next-button");
+      const dots = document.querySelector(".dots");
+      const slides = Array.from(slider.querySelectorAll("img"));
+      const liEls = Array.from(dots.querySelectorAll("li"));
+      const slideCount = slides.length;
+      let slideIndex = 0;
+
+      // Устанавливаем обработчики событий для кнопок
+      prevButton.addEventListener("click", showPreviousSlide);
+      nextButton.addEventListener("click", showNextSlide);
+      dots.addEventListener("click", showSelectSlide);
+
+      function showSelectSlide(event) {
+        if (!event.target.matches("li")) {
+          return;
+        }
+        slideIndex = +event.target.dataset.number;
+        updateSlider();
+      }
+
+      // Функция для показа предыдущего слайда
+      function showPreviousSlide() {
+        slideIndex = (slideIndex - 1 + slideCount) % slideCount;
+        updateSlider();
+      }
+
+      // Функция для показа следующего слайда
+      function showNextSlide() {
+        slideIndex = (slideIndex + 1) % slideCount;
+        updateSlider();
+      }
+
+      // Функция для обновления отображения слайдера
+      function updateSlider() {
+        slides.forEach((slide, index) => {
+          if (index === slideIndex) {
+            slide.style.display = "block";
+          } else {
+            slide.style.display = "none";
+          }
+        });
+      }
+
+      // Инициализация слайдера
+      updateSlider();
+    </script>
+  </body>
+</html>
